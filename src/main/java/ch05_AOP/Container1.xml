@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns = "http://www.springframework.org/schema/beans"
+	xmlns:context = "http://www.springframework.org/schema/context"
+	xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop = "http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/aop
+	http://www.springframework.org/schema/aop/spring-aop.xsd
+	http://www.springframework.org/schema/context
+	http://www.springframework.org/schema/context/spring-context.xsd">
+
+
+<bean id = "write" class = "ch05_obj.WriteImpl">
+	<constructor-arg  ref = "articleDao" />
+</bean>
+
+
+
+<bean id = "articleDao" class = "ch05_obj.OracleArticleDao"/>
+
+
+<bean id = "logging" class = "ch05_obj.LoggingAspect" />
+
+<aop:config><!-- AOP걸기는 aop config를 사용 -->
+<!-- 접근제어자 *  패키지명 * 클래스명 .메소드명.*Impl(여기선 WriteImpl이 해당되지)에 있는 모든 메소드*(..)인데 그게 파라미터가 있던지 없던지*(..) 그게 실행되면 Logging이란 아이를 실행할거야  -->
+	<!-- 어떤 핵심로직을 가진 메서드를 선택할거니? 조건식  -->
+	<aop:pointcut expression="execution(public * ch05_obj.*Impl.*(..))" id = "servicepointcut" />
+	<!-- 1) 이 aspect를 ref 따라가봐  -->
+	<aop:aspect id = "loggingAspect" ref ="logging">
+	<!-- 해당되는 조인포인트 전후에 (advice around) loggingAspect클래스 안에 logging이라는 메서드를 실행할거야 그걸 어느 위치에서 할거냐면 pointcut-ref를 따라가봐 -->
+	<aop:around method = "logging" pointcut-ref = "servicepointcut" />
+	</aop:aspect>
+
+
+</aop:config>
+
+
+
+<aop:config><!-- AOP걸기는 aop config를 사용 -->
+<!-- 접근제어자 *  패키지명 * 클래스명 .메소드명.*Impl(여기선 ~~Bean~~클래스가 해당되지)에 있는 모든 메소드*(..)인데 그게 파라미터가 있던지 없던지*(..) 그게 실행되면 Logging이란 아이를 실행할거야  -->
+	<!-- 어떤 핵심로직을 가진 메서드를 선택할거니? 조건식  -->
+	<aop:pointcut expression="execution(public * ch01_sample.*Bean*.*(..))" id = "servicepointcut2" />
+	<!-- 1) 이 aspect를 ref 따라가봐  -->
+	<aop:aspect id = "loggingAspect" ref ="logging">
+	<!-- 해당되는 조인포인트 전후에 (advice around) loggingAspect클래스 안에 logging이라는 메서드를 실행할거야 그걸 어느 위치에서 할거냐면 pointcut-ref를 따라가봐 -->
+	<aop:around method = "logging" pointcut-ref = "servicepointcut2" />
+	</aop:aspect>
+
+
+</aop:config>
+
+<bean id = "hello" class = "ch01_sample.MessageBeanKr"/>
+
+
+
+
+</beans>

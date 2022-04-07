@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns = "http://www.springframework.org/schema/beans"
+	xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+<!-- memberDao는 왜 bean에 넣냐하면 밑에 RegisterService클래스에서 파라미터로 멤버다오를 넣기 때문에! 그 멤버다오는 생성자로 넣어야 하기 때문에 -->
+<!-- 그럼 RegisterService는 왜 다오가 필요한데? 새로 입력받아서 멤버데이터 = 멤버+a 데이터가 되었다고 셋팅해야하기 때문에 -->
+<bean id = "memberDao" class = "ch02_obj.MemberDao" />
+
+
+<!-- constructor 인젝션 방식 -->
+<bean id = "memberRegSvc" class = "ch02_obj.MemberRegisterService">
+	<constructor-arg ref = "memberDao" /><!-- MemberRegisterService 클래스에 memberDao가 있어야함  -->
+	
+</bean>
+
+<bean id = "changePwdSvc" class = "ch02_obj.ChangePasswordService">
+	<constructor-arg ref = "memberDao" />
+</bean>
+
+</beans>

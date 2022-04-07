@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns = "http://www.springframework.org/schema/beans"
+	xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+	
+	
+	<bean id = "user1" class = "ch02_obj.User">
+	<constructor-arg value = "kicuser"></constructor-arg>
+	<constructor-arg value = "1111"></constructor-arg>
+	</bean>
+	
+	
+	
+	<bean id = "user2" class = "ch02_obj.User">
+	<constructor-arg value = "kicstu"></constructor-arg>
+	<constructor-arg value = "1234"></constructor-arg>
+	</bean>
+	
+	
+	<bean id = "pwChangeSvc" class = "ch02_obj.PasswordChangeService">
+		<!-- 생성자 ref 이렇게 따로 써도 됩니다 -->
+		<constructor-arg>
+			<ref bean = "userRepository"></ref>
+		</constructor-arg>
+	</bean>
+	
+	<bean id = "userRepository" class = "ch02_obj.UserRepository">
+		<property name = "users">
+			<list>
+				<ref bean = "user1" />
+				<ref bean = "user2" />
+			</list>
+		</property>		
+	</bean>
+	
+	<bean id = "authenticationService" class ="ch02_obj.AuthenticationService">
+		<property name = "userRepository" ref = "userRepository" />
+		<property name = "authFailLogger" ref = "authFailLogger"/>
+	</bean>
+	
+	
+	<bean id = "authFailLogger" class = "ch02_obj.AuthFailLogger">
+		<property name = "threshold" value = "2" />
+	</bean>
+	
+	
+</beans>

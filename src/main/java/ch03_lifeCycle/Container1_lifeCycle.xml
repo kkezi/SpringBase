@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns = "http://www.springframework.org/schema/beans"
+	xmlns:context = "http://www.springframework.org/schema/context"
+	xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/context
+	http://www.springframework.org/schema/context/spring-context.xsd">
+	
+<context:annotation-config /> <!-- ConnPool2 자바 어노테이션 postconstruct, predestroy 실행하게 해줍니다  -->
+<bean class = "ch03_obj.MyExtension" /> <!-- id가 없으면 getBean으로 안 가져오겠다는 얘기고 default beanName은 클래스명 앞글자를 소문자로 가져온다 -->
+
+<bean class = "ch03_obj.ConnPool1" />
+<bean class = "ch03_obj.ConnPool2" /> <!-- 초기메서드와 끝메서드를 annotation-config로 @실행시켜도 되고 -->
+
+<!-- 아니면 ConnPool2과 다르게 @ & annotation-config 안쓰고 애초에 메서드를 이렇게 명시해줘도 된다 -->
+<bean class = "ch03_obj.ConnPool3"  
+		init-method = "init" destroy-method = "destroy" /> 
+		
+		
+<bean id = "myBean" class = "ch03_obj.MyBean" 
+		init-method = "customInit" destroy-method = "customDestroy">
+		<property name = "property1" value = "값1"/>
+	</bean>
+	
+	
+</beans>

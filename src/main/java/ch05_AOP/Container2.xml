@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns = "http://www.springframework.org/schema/beans"
+	xmlns:context = "http://www.springframework.org/schema/context"
+	xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop = "http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/aop
+	http://www.springframework.org/schema/aop/spring-aop.xsd
+	http://www.springframework.org/schema/context
+	http://www.springframework.org/schema/context/spring-context.xsd">
+<!-- aop 포인트컷 표현식 ref로 참고하지말고 직접 적어주는 버전 = 합친 버전 -->
+
+
+<bean id = "loggingAdvice" class = "ch05_obj.LoggingAdvice" />
+
+<bean id = "readArticleService" class = "ch05_obj.ReadArticleServiceImpl" />
+
+<bean id = "cacheAdvice" class = "ch05_obj.ArticleCacheAdvice" />
+
+<bean id = "memberService" class = "ch05_obj.MemberServiceImpl"/>
+
+<bean id = "traceAdvice" class = "ch05_obj.UpdateMemberInfoTraceAdvice" />
+
+<bean id = "deleteAdvice" class = "ch05_obj.DeleteMemberInfoTraceAdvice" />
+
+<aop:config>
+	<aop:aspect id = "loggingAspect" ref ="loggingAdvice" order = "2">	
+	<aop:pointcut id = "publicMethod1" expression ="execution(public * ch05_obj.*Service.*(..))" />
+	<!-- ch05_obj패키지에 있는 모든 것(컨테이너에 빈 등록되어있는 것 중에 에 pointcut걸기  -->
+	<aop:pointcut id = "publicMethod" expression ="within(ch05_obj.*)"/>
+	<aop:before method = "before" pointcut = "execution(public * ch05_obj.*Service.*(..))" />
+	
+	<aop:after-returning method = "afterReturning"
+		pointcut-ref = "publicMethod" returning ="ret" />
+		<!-- afterReturing이라는 메서드 실행 언제? publicMethod가 실행되면 그 이후에 ! ret를 리턴하는 것 -->
+	
+	<aop:after-throwing method="afterThrowing"
+		throwing= "ex" pointcut-ref = "publicMethod" />
+	
+	<aop:after method = "afterFinally"
+		pointcut-ref = "publicMethod" />
+	</aop:aspect>	
+		
+		
+	<aop:aspect id = "cacheAspect" ref = "cacheAdvice" order = "1">
+		<aop:around method = "cache" 
+		pointcut="execution(public * *..ReadArticleServiceImpl.*(..))" />
+	</aop:aspect>	
+		
+		
+	<aop:aspect id = "traceAspect" ref = "traceAdvice" order = "3">
+		<aop:after-returning method="traceReturn" 
+		 pointcut = "args(id,info)" returning = "ret" arg-names = "ret,id,info"/>
+	</aop:aspect>
+	
+	
+	<aop:aspect id = "deleteAspect" ref = "deleteAdvice">
+		<aop:after-returning method="traceReturn" 
+		 pointcut = "args(id,pass)" returning = "ret" arg-names = "ret,id,pass"/>
+	</aop:aspect>
+	
+</aop:config>
+
+</beans>

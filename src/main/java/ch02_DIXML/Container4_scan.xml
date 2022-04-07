@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns = "http://www.springframework.org/schema/beans"
+	xmlns:context = "http://www.springframework.org/schema/context"
+	xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/context
+	http://www.springframework.org/schema/context/spring-context.xsd">
+	
+	<!-- scan으로 패키지에 있는 bean을 가져오겟다 -->
+	<context:component-scan base-package="ch02_objScan"/>
+	
+	
+	
+	
+	<bean id = "user1" class = "ch02_obj.User">
+	<constructor-arg value = "kicuser"></constructor-arg>
+	<constructor-arg value = "1111"></constructor-arg>
+	</bean>
+	
+	
+	
+	<bean id = "user2" class = "ch02_obj.User">
+	<constructor-arg value = "kicstu"></constructor-arg>
+	<constructor-arg value = "1234"></constructor-arg>
+	</bean>
+	
+	
+	<bean id = "authFailLogger" class = "ch02_obj.AuthFailLogger">
+		<property name = "threshold" value = "2" />
+	</bean>
+	
+	
+</beans>

@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns = "http://www.springframework.org/schema/beans"
+	xmlns:context = "http://www.springframework.org/schema/context"
+	xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/context
+	http://www.springframework.org/schema/context/spring-context.xsd">
+
+
+
+<bean id = "camera1" class = "ch04_obj.Camera">
+	<property name = "number" value = "1" />
+</bean>
+
+
+<bean id = "camera2" class = "ch04_obj.Camera">
+	<property name = "number" value = "2" />	
+</bean>
+
+<bean id = "camera3" class = "ch04_obj.Camera">
+	<property name = "number" value = "3" />
+</bean>
+
+<bean id = "camera4" class = "ch04_obj.Camera">
+	<property name = "number" value = "4" />	
+</bean>
+
+<bean id = "windowSensor" class = "ch04_obj.RaySensor">
+	<constructor-arg value = "창 센서 "/><!-- 생성자 -->
+</bean>
+
+<bean id = "doorSensor" class = "ch04_obj.RaySensor">
+	<constructor-arg value = "현관 센서 " />
+	<qualifier value = "selectDetection"/>
+</bean>
+
+<bean id = "lampSensor" class = "ch04_obj.RaySensor">
+	<constructor-arg value = "전동 센서 "/>
+	<qualifier value = "selectDetection"/>
+</bean>
+
+
+<bean id = "displayMode" class = "ch04_obj.DisplayMode">
+	<property name="type" value = "GRID" />
+</bean>
+
+
+
+<context:component-scan base-package="ch04_objScan" />
+
+
+<!--  
+<bean id = "executor" class = "ch04_obj.Executor">
+	<property name = "worker" ref = "worker" />
+</bean>
+
+<bean id = "worker" class = "ch04_obj.Worker" scope="prototype" />
+
+
+<bean id = "alarmDevice" class = "ch04_obj.SnsAlarmDevice" />
+
+<bean id = "viewer" class = "ch04_obj.MonitorViewer">
+	<property name = "displayMode" ref = "displayMode" />
+</bean>
+
+
+<bean id = "homeController" class = "ch04_obj.HomeController" init-method="init">
+	<property name="sensors">
+		<list>
+			<ref bean = "windowSensor"/>
+			<ref bean = "doorSensor"/>
+			<ref bean = "lampSensor"/>
+			
+		</list>
+	</property>
+	
+	<property name = "alarmDevice" ref = "alarmDevice" />
+
+	<property name = "viewer" ref = "viewer" />
+	
+		
+	<property name="camera1" ref = "camera1" />
+	<property name="camera2" ref = "camera2" />
+	<property name="camera3" ref = "camera3" />
+	<property name="camera4" ref = "camera4" />
+	
+</bean>
+
+-->
+
+</beans>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns = "http://www.springframework.org/schema/beans"
+	xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+	
+	
+	<!-- ch02_obj밑에 Greeter클래스 -->
+<bean id = "greeter" class = "ch02_obj.Greeter">
+
+<!--  setter injection 방식 : 클래스에서 setFormat(String msg)을 찾아가서 
+여기 value(value타입은 항상 String이다)를 String msg에 넣는다  -->
+	<property name ="format" value = "안녕하세요 스프링 첫날입니다">
+	
+	</property>
+	
+</bean>
+	
+	
+</beans>
